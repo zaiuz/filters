@@ -1,16 +1,15 @@
-[![Build Status](https://travis-ci.org/zaiuz/zaiuz.png)](https://travis-ci.org/zaiuz/zaiuz)
+[![Build Status](https://travis-ci.org/zaiuz/modules.png)](https://travis-ci.org/zaiuz/modules)
 
-ZAIUZ
-=====
+ZAIUZ/MODULES
+=============
 
-WIP Forklift for the excellent [gorilla web toolkit][1].
+Modules for ZAIUS
 
 LICENSE
 =======
 
-BSD 2-Clause (see the LICENSE file for more info)
+BSD 2-Clause (see the [LICENSE][0] file for more info)
 
 
-[0]: https://raw.github.com/zaiuz/zaiuz/master/LICENSE
-[1]: http://www.gorillatoolkit.org
+[0]: https://raw.github.com/zaiuz/modules/master/LICENSE
 
