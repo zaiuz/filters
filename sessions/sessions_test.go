@@ -2,9 +2,9 @@ package sessions
 
 import "testing"
 import "net/http/httptest"
+import "github.com/zaiuz/zaiuz/testutil"
+import z "github.com/zaiuz/zaiuz"
 import a "github.com/stretchr/testify/assert"
-import "../../context"
-import "../../testutil"
 
 const TestSessionName = "zaius.modules.sessions.Cookie"
 const TestSessionSecret = TestSessionName
@@ -58,7 +58,7 @@ func newSessionModule() *SessionModule {
 	return CookieSession(TestSessionName, TestSessionSecret)
 }
 
-func newTestContext() *context.Context {
+func newTestContext() *z.Context {
 	response, request := testutil.NewTestRequestPair()
-	return context.NewContext(response, request)
+	return z.NewContext(response, request)
 }

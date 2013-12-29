@@ -2,8 +2,7 @@ package sessions
 
 import "github.com/gorilla/sessions"
 import "errors"
-import "../../context"
-import m ".."
+import z "github.com/zaiuz/zaiuz"
 
 const ContextKey = "zaius.SessionModule"
 
@@ -12,14 +11,14 @@ type SessionModule struct {
 	name  string
 }
 
-var _ m.Module = new(SessionModule)
+var _ z.Module = new(SessionModule)
 
 func CookieSession(name, secret string) *SessionModule {
 	store := sessions.NewCookieStore([]byte(secret))
 	return &SessionModule{store, name}
 }
 
-func (s *SessionModule) Attach(c *context.Context) error {
+func (s *SessionModule) Attach(c *z.Context) error {
 	// TODO: Access sessions lazily
 	session, e := s.store.Get(c.Request, s.name)
 	if e != nil {
@@ -30,7 +29,7 @@ func (s *SessionModule) Attach(c *context.Context) error {
 	return nil
 }
 
-func Get(c *context.Context) (session *sessions.Session, e error) {
+func Get(c *z.Context) (session *sessions.Session, e error) {
 	result, exists := c.GetOk(ContextKey)
 	if !exists {
 		return nil, errors.New("Get() requires session module in current route.")
@@ -40,7 +39,7 @@ func Get(c *context.Context) (session *sessions.Session, e error) {
 	return result.(*sessions.Session), nil
 }
 
-func (s *SessionModule) Detach(c *context.Context) error {
+func (s *SessionModule) Detach(c *z.Context) error {
 	result, exists := c.GetOk(ContextKey)
 	if !exists {
 		return nil
