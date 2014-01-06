@@ -1,6 +1,6 @@
 #!/usr/bin/make
 
-PKG := ./sessions
+PKG := ./sessions ./logging
 BIN := $(shell basename `pwd`)
 GO  := $(realpath ./go)
 
