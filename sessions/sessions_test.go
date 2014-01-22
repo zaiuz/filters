@@ -2,7 +2,7 @@ package sessions
 
 import "testing"
 import "net/http/httptest"
-import "github.com/zaiuz/zaiuz/testutil"
+import "github.com/zaiuz/testutil"
 import z "github.com/zaiuz/zaiuz"
 import a "github.com/stretchr/testify/assert"
 
