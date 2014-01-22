@@ -3,7 +3,6 @@ package sessions
 import "testing"
 import "net/http/httptest"
 import "github.com/zaiuz/testutil"
-import z "github.com/zaiuz/zaiuz"
 import a "github.com/stretchr/testify/assert"
 
 const TestSessionName = "zaius.modules.sessions.Cookie"
@@ -19,7 +18,7 @@ func TestCookieSession(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	module := newSessionModule()
-	context := newTestContext()
+	context := testutil.NewTestContext()
 
 	session, e := Get(context)
 	a.Nil(t, session, "incorrectly got a session even when not yet attached.")
@@ -35,7 +34,7 @@ func TestDetach(t *testing.T) {
 	const TestValue = "The quick brown fox jumps over the lazy dog."
 
 	m := newSessionModule()
-	context := newTestContext()
+	context := testutil.NewTestContext()
 	m.Attach(context)
 
 	session, e := Get(context)
@@ -56,9 +55,4 @@ func TestDetach(t *testing.T) {
 
 func newSessionModule() *SessionModule {
 	return CookieSession(TestSessionName, TestSessionSecret)
-}
-
-func newTestContext() *z.Context {
-	response, request := testutil.NewTestRequestPair()
-	return z.NewContext(response, request)
 }
