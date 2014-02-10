@@ -1,0 +1,58 @@
+package filters
+
+import "github.com/chakrit/go-bunyan"
+import z "github.com/zaiuz/zaiuz"
+
+const LogFilterPrefix = "z.log"
+
+type logFilterData struct {
+	logger bunyan.Log
+}
+
+func LogFilter(name string) z.Filter {
+	logger := bunyan.NewStdLogger(name, bunyan.StdoutSink())
+	data := &logFilterData{logger}
+
+	return func(action z.Action) z.Action {
+		return func(c *z.Context) z.Result {
+			// TODO: Adds request id to logger scope.
+			var sublogger bunyan.Log
+			rid := GetRequestId(c)
+			if rid != "" {
+				sublogger = logger.
+					Record("request_id", rid).
+					Child()
+			} else {
+				sublogger = logger.Child()
+			}
+
+			sublogger.Infof("%s %s", c.Request.Method, c.Request.URL.Path)
+			c.Set(LogFilterPrefix, data)
+
+			result := action(c)
+
+			duration := GetDuration(c)
+			if duration != 0 {
+				sublogger.Infof("finish %s", duration.String())
+			} else {
+				sublogger.Infof("finish")
+			}
+
+			return result
+		}
+	}
+}
+
+func GetLogger(c *z.Context) bunyan.Log {
+	logger_, ok := c.GetOk(LogFilterPrefix)
+	if !ok {
+		return nil
+	}
+
+	logger, ok := logger_.(bunyan.Log)
+	if !ok {
+		return nil
+	}
+
+	return logger
+}
