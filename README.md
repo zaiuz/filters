@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/zaiuz/modules.png)](https://travis-ci.org/zaiuz/modules)
+[![Build Status](https://travis-ci.org/zaiuz/filters.png)](https://travis-ci.org/zaiuz/filters)
 
-ZAIUZ/MODULES
+ZAIUZ/FILTERS
 =============
 
-Modules for ZAIUS
+Filters for ZAIUS
 
 LICENSE
 =======
