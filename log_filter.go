@@ -9,9 +9,15 @@ type logFilterData struct {
 	logger bunyan.Log
 }
 
-func LogFilter(name string) z.Filter {
-	logger := bunyan.NewStdLogger(name, bunyan.StdoutSink())
-	data := &logFilterData{logger}
+func LogFilter(name string, parent bunyan.Log) z.Filter {
+	if parent == nil {
+		parent = bunyan.NewStdLogger(name, bunyan.StdoutSink())
+	}
+	if name != "" {
+		parent = parent.Child()
+	}
+
+	data := &logFilterData{parent}
 
 	return func(action z.Action) z.Action {
 		return func(c *z.Context) z.Result {
@@ -19,11 +25,11 @@ func LogFilter(name string) z.Filter {
 			var sublogger bunyan.Log
 			rid := GetRequestId(c)
 			if rid != "" {
-				sublogger = logger.
+				sublogger = parent.
 					Record("request_id", rid).
 					Child()
 			} else {
-				sublogger = logger.Child()
+				sublogger = parent.Child()
 			}
 
 			sublogger.Infof("%s %s", c.Request.Method, c.Request.URL.Path)
