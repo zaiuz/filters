@@ -10,6 +10,7 @@ type sessionFilterData struct {
 	name  string
 }
 
+// TODO: Rename to CookieSessionFilter (we would soon need redis)
 func SessionFilter(name, secret string) z.Filter {
 	store := sessions.NewCookieStore([]byte(secret))
 	data := &sessionFilterData{store, name}
